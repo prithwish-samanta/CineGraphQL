@@ -10,4 +10,6 @@ public interface IMovieService {
     List<Movie> getMovies();
 
     Movie getMovieById(String id);
+
+    void addMovie(Movie movie);
 }

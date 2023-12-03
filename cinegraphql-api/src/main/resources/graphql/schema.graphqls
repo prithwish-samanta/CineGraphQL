@@ -11,4 +11,10 @@ type Movie {
     plotSummary: String
     posterUrl: String
     trailerUrl: String
+    genres: [Genre]
+}
+
+type Genre {
+    genreId: ID!
+    name: String!
 }
