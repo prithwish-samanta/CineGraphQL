@@ -10,6 +10,8 @@ import java.util.List;
 
 public class MovieMapper {
     public static MovieDto entityToDto(Movie movie) {
+        if (movie == null)
+            return null;
         MovieDto dto = new MovieDto();
         dto.setMovieId(movie.getMovieId());
         dto.setTitle(movie.getTitle());

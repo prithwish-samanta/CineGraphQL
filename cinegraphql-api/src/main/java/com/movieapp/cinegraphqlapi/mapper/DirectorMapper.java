@@ -5,6 +5,8 @@ import com.movieapp.cinegraphqlapi.model.Director;
 
 public class DirectorMapper {
     public static DirectorDto entityToDto(Director director) {
+        if (director == null)
+            return null;
         DirectorDto dto = new DirectorDto();
         dto.setDirectorId(director.getDirectorId());
         dto.setName(director.getName());

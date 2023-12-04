@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IActorService {
     void addActor(Actor actor);
+
+    Actor getActorById(String actor_id);
 }

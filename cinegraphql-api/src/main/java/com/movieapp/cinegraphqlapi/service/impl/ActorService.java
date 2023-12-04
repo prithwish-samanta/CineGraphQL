@@ -23,6 +23,11 @@ public class ActorService implements IActorService {
         actorRepository.save(actor);
     }
 
+    @Override
+    public Actor getActorById(String actor_id) {
+        return actorRepository.findById(actor_id).orElse(null);
+    }
+
     private String getRandomActorId() {
         return "aa" + UUID.randomUUID();
     }

@@ -5,6 +5,8 @@ import com.movieapp.cinegraphqlapi.model.Genre;
 
 public class GenreMapper {
     public static GenreDto entityToDto(Genre genre) {
+        if (genre == null)
+            return null;
         GenreDto dto = new GenreDto();
         dto.setGenreId(genre.getGenreId());
         dto.setName(genre.getName());

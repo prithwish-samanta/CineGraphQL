@@ -1,8 +1,10 @@
 type Query {
-    movie(id: ID): Movie
-    movies:[Movie]
-    searchMovies(query: String): [Movie]
-    genres:[Genre]
+    movie(id: ID!): Movie
+    movies: [Movie]
+    searchMovies(query: String!): [Movie]
+    genres: [Genre]
+    actor(actor_id: ID!): Actor
+    director(director_id: ID!): Director
 }
 
 type Movie {
@@ -15,7 +17,7 @@ type Movie {
     trailerUrl: String
     genres: [Genre]
     actors: [Actor]
-    directors: [Director]!
+    directors: [Director]
 }
 
 type Genre {

@@ -21,6 +21,11 @@ public class DirectorService implements IDirectorService {
         directorRepository.save(director);
     }
 
+    @Override
+    public Director getDirectorById(String director_id) {
+        return directorRepository.findById(director_id).orElse(null);
+    }
+
     private String getRandomDirectorId() {
         return "dd" + UUID.randomUUID();
     }

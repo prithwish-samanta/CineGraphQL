@@ -5,6 +5,8 @@ import com.movieapp.cinegraphqlapi.model.Actor;
 
 public class ActorMapper {
     public static ActorDto entityToDto(Actor actor) {
+        if (actor == null)
+            return null;
         ActorDto dto = new ActorDto();
         dto.setActorId(actor.getActorId());
         dto.setName(actor.getName());
