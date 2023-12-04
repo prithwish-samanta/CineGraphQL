@@ -1,9 +1,11 @@
 package com.movieapp.cinegraphqlapi;
 
 import com.movieapp.cinegraphqlapi.model.Actor;
+import com.movieapp.cinegraphqlapi.model.Director;
 import com.movieapp.cinegraphqlapi.model.Genre;
 import com.movieapp.cinegraphqlapi.model.Movie;
 import com.movieapp.cinegraphqlapi.service.impl.ActorService;
+import com.movieapp.cinegraphqlapi.service.impl.DirectorService;
 import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class CinegraphqlApiApplication implements CommandLineRunner {
     private GenreService genreService;
     @Autowired
     private ActorService actorService;
+    @Autowired
+    private DirectorService directorService;
 
     public static void main(String[] args) {
         SpringApplication.run(CinegraphqlApiApplication.class, args);
@@ -67,6 +71,17 @@ public class CinegraphqlApiApplication implements CommandLineRunner {
 
         movie.setGenres(List.of(genre1, genre2, genre3));
         movie.setActors(List.of(actor1, actor2));
+
+        //directors
+        Director director = new Director();
+        director.setName("Christopher Nolan");
+        director.setBirthDate("1970-07-30");
+        director.setBiography("An English film director, screenwriter, and producer.");
+        director.setProfilePictureUrl("https://example.com/directors/nolan.jpg");
+
+        directorService.addDirector(director);
+
+        movie.setDirectors(List.of(director));
 
         //add movie
         movieService.addMovie(movie);

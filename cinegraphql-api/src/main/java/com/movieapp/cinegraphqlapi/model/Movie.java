@@ -21,6 +21,9 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Actor> actors;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Director> directors;
+
     public String getMovieId() {
         return movieId;
     }
@@ -91,5 +94,13 @@ public class Movie {
 
     public void setActors(List<Actor> actors) {
         this.actors = actors;
+    }
+
+    public List<Director> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(List<Director> directors) {
+        this.directors = directors;
     }
 }

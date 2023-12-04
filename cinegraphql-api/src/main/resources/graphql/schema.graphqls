@@ -13,6 +13,7 @@ type Movie {
     trailerUrl: String
     genres: [Genre]
     actors: [Actor]
+    directors: [Director]!
 }
 
 type Genre {
@@ -22,6 +23,14 @@ type Genre {
 
 type Actor {
     actorId: ID!
+    name: String!
+    birthDate: String
+    biography: String
+    profilePictureUrl: String
+}
+
+type Director {
+    directorId: ID!
     name: String!
     birthDate: String
     biography: String
