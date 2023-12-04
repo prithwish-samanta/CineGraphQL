@@ -12,4 +12,6 @@ public interface IMovieService {
     Movie getMovieById(String id);
 
     void addMovie(Movie movie);
+
+    List<Movie> getSearchedMovieDetails(String query);
 }

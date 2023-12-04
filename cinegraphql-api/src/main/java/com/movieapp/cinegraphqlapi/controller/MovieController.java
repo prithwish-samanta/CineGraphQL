@@ -30,4 +30,11 @@ public class MovieController {
             return null;
         return MovieMapper.entityToDto(fetchedMovie);
     }
+
+    @QueryMapping
+    public List<MovieDto> searchMovies(@Argument String query) {
+        List<Movie> fetchedMovies = movieService.getSearchedMovieDetails(query);
+        return fetchedMovies.stream()
+                .map(MovieMapper::entityToDto).toList();
+    }
 }
