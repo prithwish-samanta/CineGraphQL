@@ -1,5 +1,7 @@
 package com.movieapp.cinegraphqlapi.controller;
 
+import com.movieapp.cinegraphqlapi.dto.MovieDto;
+import com.movieapp.cinegraphqlapi.mapper.MovieMapper;
 import com.movieapp.cinegraphqlapi.model.Movie;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,17 @@ public class MovieController {
     private MovieService movieService;
 
     @QueryMapping
-    public List<Movie> movies() {
-        return movieService.getMovies();
+    public List<MovieDto> movies() {
+        List<Movie> movieList = movieService.getMovies();
+        return movieList.stream()
+                .map(MovieMapper::entityToDto).toList();
     }
 
     @QueryMapping
-    public Movie movie(@Argument String id) {
-        return movieService.getMovieById(id);
+    public MovieDto movie(@Argument String id) {
+        Movie fetchedMovie = movieService.getMovieById(id);
+        if (fetchedMovie == null)
+            return null;
+        return MovieMapper.entityToDto(fetchedMovie);
     }
 }
