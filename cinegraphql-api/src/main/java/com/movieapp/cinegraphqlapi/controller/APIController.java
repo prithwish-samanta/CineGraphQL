@@ -1,8 +1,12 @@
 package com.movieapp.cinegraphqlapi.controller;
 
+import com.movieapp.cinegraphqlapi.dto.GenreDto;
 import com.movieapp.cinegraphqlapi.dto.MovieDto;
+import com.movieapp.cinegraphqlapi.mapper.GenreMapper;
 import com.movieapp.cinegraphqlapi.mapper.MovieMapper;
+import com.movieapp.cinegraphqlapi.model.Genre;
 import com.movieapp.cinegraphqlapi.model.Movie;
+import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -12,9 +16,11 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class MovieController {
+public class APIController {
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private GenreService genreService;
 
     @QueryMapping
     public List<MovieDto> movies() {
@@ -36,5 +42,12 @@ public class MovieController {
         List<Movie> fetchedMovies = movieService.getSearchedMovieDetails(query);
         return fetchedMovies.stream()
                 .map(MovieMapper::entityToDto).toList();
+    }
+
+    @QueryMapping
+    public List<GenreDto> genres() {
+        List<Genre> genreList = genreService.getAllGenres();
+        return genreList.stream()
+                .map(GenreMapper::entityToDto).toList();
     }
 }

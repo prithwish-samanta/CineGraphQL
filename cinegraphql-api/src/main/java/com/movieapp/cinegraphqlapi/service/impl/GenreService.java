@@ -6,6 +6,7 @@ import com.movieapp.cinegraphqlapi.service.IGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,11 @@ public class GenreService implements IGenreService {
     public void addGenre(Genre genre) {
         genre.setGenreId(getRandomGenreId());
         genreRepository.save(genre);
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
     }
 
     private String getRandomGenreId() {

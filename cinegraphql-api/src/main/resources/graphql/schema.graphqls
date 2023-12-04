@@ -2,6 +2,7 @@ type Query {
     movie(id: ID): Movie
     movies:[Movie]
     searchMovies(query: String): [Movie]
+    genres:[Genre]
 }
 
 type Movie {
