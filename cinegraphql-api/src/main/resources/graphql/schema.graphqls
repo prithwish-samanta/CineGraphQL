@@ -12,9 +12,18 @@ type Movie {
     posterUrl: String
     trailerUrl: String
     genres: [Genre]
+    actors: [Actor]
 }
 
 type Genre {
     genreId: ID!
     name: String!
+}
+
+type Actor {
+    actorId: ID!
+    name: String!
+    birthDate: String
+    biography: String
+    profilePictureUrl: String
 }

@@ -18,6 +18,9 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Genre> genres;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Actor> actors;
+
     public String getMovieId() {
         return movieId;
     }
@@ -80,5 +83,13 @@ public class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
     }
 }
