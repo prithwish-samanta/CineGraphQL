@@ -19,13 +19,15 @@ public class APIController {
     private final ActorService actorService;
     private final DirectorService directorService;
     private final UserService userService;
+    private final UserRatingService userRatingService;
 
-    public APIController(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService, UserService userService) {
+    public APIController(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService, UserService userService, UserRatingService userRatingService) {
         this.movieService = movieService;
         this.genreService = genreService;
         this.actorService = actorService;
         this.directorService = directorService;
         this.userService = userService;
+        this.userRatingService = userRatingService;
     }
 
     @QueryMapping
@@ -68,5 +70,11 @@ public class APIController {
     public UserDto registerUser(@Argument UserRegistrationInput input) {
         User user = userService.addNewUser(UserMapper.inputToDto(input));
         return UserMapper.entityToDto(user);
+    }
+
+    @MutationMapping
+    public UserRatingDto addUserRating(@Argument UserRatingInput input) {
+        UserRating userRating = userRatingService.addUserRating(input);
+        return UserRatingMapper.entityToDto(userRating);
     }
 }

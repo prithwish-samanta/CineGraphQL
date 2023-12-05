@@ -15,6 +15,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public User addNewUser(User user) {
         user.setUserId(CommonUtils.generateRandomId("uu"));
         return userRepository.save(user);

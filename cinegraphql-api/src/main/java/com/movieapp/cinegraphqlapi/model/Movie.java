@@ -24,6 +24,9 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Director> directors;
 
+    @OneToMany(mappedBy = "movie")
+    private List<UserRating> userRatings;
+
     public String getMovieId() {
         return movieId;
     }
@@ -102,5 +105,13 @@ public class Movie {
 
     public void setDirectors(List<Director> directors) {
         this.directors = directors;
+    }
+
+    public List<UserRating> getUserRatings() {
+        return userRatings;
+    }
+
+    public void setUserRatings(List<UserRating> userRatings) {
+        this.userRatings = userRatings;
     }
 }

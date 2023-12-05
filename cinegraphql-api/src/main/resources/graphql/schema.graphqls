@@ -9,6 +9,7 @@ type Query {
 
 type Mutation{
     registerUser(input: UserRegistrationInput!): User
+    addUserRating(input: UserRatingInput!): UserRating
 }
 
 type Movie {
@@ -51,8 +52,22 @@ type User{
     email: String!
 }
 
+type UserRating {
+    user: User!
+    movie: Movie!
+    rating: Float!
+    review: String!
+}
+
 input UserRegistrationInput {
     username: String!
     password: String!
     email: String!
+}
+
+input UserRatingInput {
+    userId: ID!
+    movieId: ID!
+    rating: Float!
+    review: String!
 }
