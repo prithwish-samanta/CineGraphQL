@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +25,10 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public List<Movie> getMovies() {
+    public Page<Movie> getMovies(int page, int pageSize) {
         log.info("Fetching all movies");
-        return movieRepository.findAll();
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        return movieRepository.findAll(pageRequest);
     }
 
     @Override

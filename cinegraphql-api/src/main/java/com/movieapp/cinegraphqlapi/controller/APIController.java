@@ -17,6 +17,7 @@ import com.movieapp.cinegraphqlapi.service.impl.DirectorService;
 import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,9 @@ public class APIController {
     private DirectorService directorService;
 
     @QueryMapping
-    public List<MovieDto> movies() {
-        List<Movie> movieList = movieService.getMovies();
-        return movieList.stream().map(MovieMapper::entityToDto).toList();
+    public Page<MovieDto> movies(@Argument int page, @Argument int pageSize) {
+        Page<Movie> moviePage = movieService.getMovies(page, pageSize);
+        return moviePage.map(MovieMapper::entityToDto);
     }
 
     @QueryMapping
