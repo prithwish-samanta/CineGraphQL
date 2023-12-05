@@ -5,6 +5,7 @@ import com.movieapp.cinegraphqlapi.repository.DirectorRepository;
 import com.movieapp.cinegraphqlapi.service.IDirectorService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +20,12 @@ public class DirectorService implements IDirectorService {
     public void addDirector(Director director) {
         director.setDirectorId(getRandomDirectorId());
         directorRepository.save(director);
+    }
+
+    @Override
+    public void addAllDirectors(List<Director> directors) {
+        directors = directors.stream().peek(director -> director.setDirectorId(getRandomDirectorId())).toList();
+        directorRepository.saveAll(directors);
     }
 
     @Override

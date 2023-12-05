@@ -14,5 +14,7 @@ public interface IMovieService {
 
     void addMovie(Movie movie);
 
+    void addAllMovie(List<Movie> movies);
+
     List<Movie> getSearchedMovieDetails(String query);
 }

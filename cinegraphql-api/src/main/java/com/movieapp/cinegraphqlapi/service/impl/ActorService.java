@@ -6,6 +6,7 @@ import com.movieapp.cinegraphqlapi.service.IActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,12 @@ public class ActorService implements IActorService {
     public void addActor(Actor actor) {
         actor.setActorId(getRandomActorId());
         actorRepository.save(actor);
+    }
+
+    @Override
+    public void addAllActors(List<Actor> actors) {
+        actors = actors.stream().peek(actor -> actor.setActorId(getRandomActorId())).toList();
+        actorRepository.saveAll(actors);
     }
 
     @Override

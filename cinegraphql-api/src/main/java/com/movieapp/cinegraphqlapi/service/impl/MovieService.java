@@ -44,6 +44,12 @@ public class MovieService implements IMovieService {
     }
 
     @Override
+    public void addAllMovie(List<Movie> movies) {
+        movies = movies.stream().peek(movie -> movie.setMovieId(getRandomMovieId())).toList();
+        movieRepository.saveAll(movies);
+    }
+
+    @Override
     public List<Movie> getSearchedMovieDetails(String query) {
         return movieRepository.findByTitleContainingIgnoreCase(query, Limit.of(5));
     }

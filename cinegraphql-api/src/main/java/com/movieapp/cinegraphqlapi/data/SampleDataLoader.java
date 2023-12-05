@@ -1,5 +1,6 @@
 package com.movieapp.cinegraphqlapi.data;
 
+import com.github.javafaker.Faker;
 import com.movieapp.cinegraphqlapi.model.Actor;
 import com.movieapp.cinegraphqlapi.model.Director;
 import com.movieapp.cinegraphqlapi.model.Genre;
@@ -14,7 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 @Component
 public class SampleDataLoader implements CommandLineRunner {
@@ -28,64 +33,93 @@ public class SampleDataLoader implements CommandLineRunner {
     private ActorService actorService;
     @Autowired
     private DirectorService directorService;
+    @Autowired
+    private Faker faker;
+
+    public static Set<Integer> generateUniqueRandomNumberSet(int min, int max, int count) {
+        Set<Integer> uniqueRandomNumbers = new HashSet<>();
+        Random random = new Random();
+
+        while (uniqueRandomNumbers.size() < count) {
+            int randomNumber = random.nextInt((max - min) + 1) + min;
+            uniqueRandomNumbers.add(randomNumber);
+        }
+
+        return uniqueRandomNumbers;
+    }
 
     @Override
     public void run(String... args) throws Exception {
         log.info("Loading sample data.....");
 
-        //create movie instance
-        Movie movie = new Movie();
-        movie.setTitle("Inception");
-        movie.setReleaseDate("2010-07-16");
-        movie.setDuration(148);
-        movie.setPlotSummary("A thief who enters the dreams of others to steal their secrets.");
-        movie.setPosterUrl("https://example.com/posters/inception.jpg");
-        movie.setTrailerUrl("https://youtube.com/watch?v=66TuSJo4dZM");
-
         //genres
-        Genre genre1 = new Genre();
-        genre1.setName("Science Fiction");
-        Genre genre2 = new Genre();
-        genre2.setName("Action");
-        Genre genre3 = new Genre();
-        genre3.setName("Adventure");
-
-        genreService.addGenre(genre1);
-        genreService.addGenre(genre2);
-        genreService.addGenre(genre3);
+        log.info("operation - inserting 10 genres in the database - START");
+        List<Genre> genres = IntStream.rangeClosed(1, 10).mapToObj(i -> {
+            Genre genre = new Genre();
+            genre.setName(faker.music().genre());
+            return genre;
+        }).toList();
+        genreService.addAllGenres(genres);
+        log.info("operation - inserting 10 genres in the database - END");
 
         //actors
-        Actor actor1 = new Actor();
-        actor1.setName("Leonardo DiCaprio");
-        actor1.setBirthDate("1974-11-11");
-        actor1.setBiography("An American actor, producer, and environmental activist.");
-        actor1.setProfilePictureUrl("https://example.com/actors/leo.jpg");
-
-        Actor actor2 = new Actor();
-        actor2.setName("Joseph Gordon-Levitt");
-        actor2.setBirthDate("1981-02-17");
-        actor2.setBiography("An American actor, filmmaker, and entrepreneur.");
-        actor2.setProfilePictureUrl("https://example.com/actors/jgl.jpg");
-
-        actorService.addActor(actor1);
-        actorService.addActor(actor2);
-
-        movie.setGenres(List.of(genre1, genre2, genre3));
-        movie.setActors(List.of(actor1, actor2));
+        log.info("operation - inserting 100 actors in the database - START");
+        List<Actor> actors = IntStream.rangeClosed(1, 100).mapToObj(i -> {
+            Actor actor = new Actor();
+            actor.setName(faker.artist().name());
+            actor.setBirthDate(faker.date().birthday().toString());
+            actor.setBiography(faker.lorem().characters(50));
+            actor.setProfilePictureUrl(faker.avatar().image());
+            return actor;
+        }).toList();
+        actorService.addAllActors(actors);
+        log.info("operation - inserting 100 actors in the database - END");
 
         //directors
-        Director director = new Director();
-        director.setName("Christopher Nolan");
-        director.setBirthDate("1970-07-30");
-        director.setBiography("An English film director, screenwriter, and producer.");
-        director.setProfilePictureUrl("https://example.com/directors/nolan.jpg");
+        log.info("operation - inserting 100 directors in the database - START");
+        List<Director> directors = IntStream.rangeClosed(1, 100).mapToObj(i -> {
+            Director director = new Director();
+            director.setName(faker.name().fullName());
+            director.setBirthDate(faker.date().birthday().toString());
+            director.setBiography(faker.lorem().characters(50));
+            director.setProfilePictureUrl(faker.avatar().image());
+            return director;
+        }).toList();
+        directorService.addAllDirectors(directors);
+        log.info("operation - inserting 100 directors in the database - END");
 
-        directorService.addDirector(director);
+        //movies
+        log.info("operation - inserting 100 movies in database  - START");
+        List<Movie> movies = IntStream.rangeClosed(1, 100).mapToObj(i -> {
+            Movie movie = new Movie();
+            movie.setTitle(faker.funnyName().name());
+            movie.setReleaseDate(faker.date().birthday().toString());
+            movie.setDuration(faker.number().numberBetween(100, 220));
+            movie.setPlotSummary(faker.lorem().characters(200));
+            movie.setPosterUrl(faker.internet().url());
+            movie.setTrailerUrl(faker.internet().url());
 
-        movie.setDirectors(List.of(director));
+            Set<Integer> indexes = generateUniqueRandomNumberSet(0, 9, 5);
+            List<Genre> selectedGenres = indexes.stream()
+                    .map(genres::get)
+                    .toList();
+            movie.setGenres(selectedGenres);
 
-        //add movie
-        movieService.addMovie(movie);
+            indexes = generateUniqueRandomNumberSet(0, 9, 8);
+            List<Actor> selectedActors = indexes.stream()
+                    .map(actors::get)
+                    .toList();
+            movie.setActors(selectedActors);
 
+            movie.setDirectors(List.of(directors.get(getRandomIndexBetween(0, 99))));
+            return movie;
+        }).toList();
+        log.info("operation - inserting 100 movies in database - END");
+        movieService.addAllMovie(movies);
+    }
+
+    private int getRandomIndexBetween(int min, int max) {
+        Random random = new Random();
+        return random.nextInt((max - min) + 1) + min;
     }
 }
