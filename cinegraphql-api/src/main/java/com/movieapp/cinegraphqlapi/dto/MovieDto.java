@@ -13,6 +13,7 @@ public class MovieDto {
     private List<GenreDto> genres;
     private List<ActorDto> actors;
     private List<DirectorDto> directors;
+    private List<UserRatingDto> userRatings;
 
     public String getMovieId() {
         return movieId;
@@ -92,5 +93,13 @@ public class MovieDto {
 
     public void setDirectors(List<DirectorDto> directors) {
         this.directors = directors;
+    }
+
+    public List<UserRatingDto> getUserRatings() {
+        return userRatings;
+    }
+
+    public void setUserRatings(List<UserRatingDto> userRatings) {
+        this.userRatings = userRatings;
     }
 }

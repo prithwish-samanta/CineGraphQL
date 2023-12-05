@@ -1,9 +1,6 @@
 package com.movieapp.cinegraphqlapi.mapper;
 
-import com.movieapp.cinegraphqlapi.dto.ActorDto;
-import com.movieapp.cinegraphqlapi.dto.DirectorDto;
-import com.movieapp.cinegraphqlapi.dto.GenreDto;
-import com.movieapp.cinegraphqlapi.dto.MovieDto;
+import com.movieapp.cinegraphqlapi.dto.*;
 import com.movieapp.cinegraphqlapi.model.Movie;
 
 import java.util.List;
@@ -32,6 +29,17 @@ public class MovieMapper {
         List<DirectorDto> directorDtoList = movie.getDirectors().stream()
                 .map(DirectorMapper::entityToDto).toList();
         dto.setDirectors(directorDtoList);
+        //remapping the user rating dto to not go into stackoverflow error
+        List<UserRatingDto> userRatingDtoList = movie.getUserRatings().stream()
+                .map(userRating -> {
+                    UserRatingDto ratingDto = new UserRatingDto();
+                    ratingDto.setId(userRating.getId());
+                    ratingDto.setUser(UserMapper.entityToDto(userRating.getUser()));
+                    ratingDto.setRating(userRating.getRating());
+                    ratingDto.setReview(userRating.getReview());
+                    return ratingDto;
+                }).toList();
+        dto.setUserRatings(userRatingDtoList);
         return dto;
     }
 }

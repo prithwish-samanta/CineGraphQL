@@ -23,6 +23,7 @@ type Movie {
     genres: [Genre]
     actors: [Actor]
     directors: [Director]
+    userRatings: [UserRating]
 }
 
 type Genre {
