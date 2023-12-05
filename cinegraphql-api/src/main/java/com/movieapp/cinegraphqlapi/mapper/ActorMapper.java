@@ -4,6 +4,9 @@ import com.movieapp.cinegraphqlapi.dto.ActorDto;
 import com.movieapp.cinegraphqlapi.model.Actor;
 
 public class ActorMapper {
+    private ActorMapper() {
+    }
+
     public static ActorDto entityToDto(Actor actor) {
         if (actor == null)
             return null;

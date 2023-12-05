@@ -16,7 +16,6 @@ import com.movieapp.cinegraphqlapi.service.impl.ActorService;
 import com.movieapp.cinegraphqlapi.service.impl.DirectorService;
 import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -26,14 +25,17 @@ import java.util.List;
 
 @Controller
 public class APIController {
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private GenreService genreService;
-    @Autowired
-    private ActorService actorService;
-    @Autowired
-    private DirectorService directorService;
+    private final MovieService movieService;
+    private final GenreService genreService;
+    private final ActorService actorService;
+    private final DirectorService directorService;
+
+    public APIController(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService) {
+        this.movieService = movieService;
+        this.genreService = genreService;
+        this.actorService = actorService;
+        this.directorService = directorService;
+    }
 
     @QueryMapping
     public Page<MovieDto> movies(@Argument int page, @Argument int pageSize) {
@@ -60,14 +62,14 @@ public class APIController {
     }
 
     @QueryMapping
-    public ActorDto actor(@Argument String actor_id) {
-        Actor actor = actorService.getActorById(actor_id);
+    public ActorDto actor(@Argument String actorId) {
+        Actor actor = actorService.getActorById(actorId);
         return ActorMapper.entityToDto(actor);
     }
 
     @QueryMapping
-    public DirectorDto director(@Argument String director_id) {
-        Director director = directorService.getDirectorById(director_id);
+    public DirectorDto director(@Argument String directorId) {
+        Director director = directorService.getDirectorById(directorId);
         return DirectorMapper.entityToDto(director);
     }
 }

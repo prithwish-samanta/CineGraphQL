@@ -11,5 +11,5 @@ public interface IDirectorService {
 
     void addAllDirectors(List<Director> directors);
 
-    Director getDirectorById(String director_id);
+    Director getDirectorById(String directorId);
 }

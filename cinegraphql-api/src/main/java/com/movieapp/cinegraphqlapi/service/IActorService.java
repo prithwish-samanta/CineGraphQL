@@ -11,5 +11,5 @@ public interface IActorService {
 
     void addAllActors(List<Actor> actors);
 
-    Actor getActorById(String actor_id);
+    Actor getActorById(String actorId);
 }

@@ -24,13 +24,16 @@ public class DirectorService implements IDirectorService {
 
     @Override
     public void addAllDirectors(List<Director> directors) {
-        directors = directors.stream().peek(director -> director.setDirectorId(getRandomDirectorId())).toList();
+        directors = directors.stream().map(director -> {
+            director.setDirectorId(getRandomDirectorId());
+            return director;
+        }).toList();
         directorRepository.saveAll(directors);
     }
 
     @Override
-    public Director getDirectorById(String director_id) {
-        return directorRepository.findById(director_id).orElse(null);
+    public Director getDirectorById(String directorId) {
+        return directorRepository.findById(directorId).orElse(null);
     }
 
     private String getRandomDirectorId() {

@@ -3,8 +3,8 @@ type Query {
     movies(page: Int!, pageSize: Int!): [Movie]
     searchMovies(query: String!): [Movie]
     genres: [Genre]
-    actor(actor_id: ID!): Actor
-    director(director_id: ID!): Director
+    actor(actorId: ID!): Actor
+    director(directorId: ID!): Director
 }
 
 type Movie {

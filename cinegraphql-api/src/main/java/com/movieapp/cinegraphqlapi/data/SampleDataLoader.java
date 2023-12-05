@@ -11,7 +11,6 @@ import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -23,29 +22,35 @@ import java.util.stream.IntStream;
 
 @Component
 public class SampleDataLoader implements CommandLineRunner {
+    private static final Random random = new Random();
     private final Logger log = LoggerFactory.getLogger(SampleDataLoader.class);
+    private final MovieService movieService;
+    private final GenreService genreService;
+    private final ActorService actorService;
+    private final DirectorService directorService;
+    private final Faker faker;
 
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private GenreService genreService;
-    @Autowired
-    private ActorService actorService;
-    @Autowired
-    private DirectorService directorService;
-    @Autowired
-    private Faker faker;
+    public SampleDataLoader(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService, Faker faker) {
+        this.movieService = movieService;
+        this.genreService = genreService;
+        this.actorService = actorService;
+        this.directorService = directorService;
+        this.faker = faker;
+    }
 
-    public static Set<Integer> generateUniqueRandomNumberSet(int min, int max, int count) {
+    private static Set<Integer> generateUniqueRandomNumberSet(int min, int max, int count) {
         Set<Integer> uniqueRandomNumbers = new HashSet<>();
-        Random random = new Random();
 
         while (uniqueRandomNumbers.size() < count) {
-            int randomNumber = random.nextInt((max - min) + 1) + min;
+            int randomNumber = getRandomIndexBetween(min, max);
             uniqueRandomNumbers.add(randomNumber);
         }
 
         return uniqueRandomNumbers;
+    }
+
+    private static int getRandomIndexBetween(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
     }
 
     @Override
@@ -116,10 +121,5 @@ public class SampleDataLoader implements CommandLineRunner {
         }).toList();
         log.info("operation - inserting 100 movies in database - END");
         movieService.addAllMovie(movies);
-    }
-
-    private int getRandomIndexBetween(int min, int max) {
-        Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
     }
 }

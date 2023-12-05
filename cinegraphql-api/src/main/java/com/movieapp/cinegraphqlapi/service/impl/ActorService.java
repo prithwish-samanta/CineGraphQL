@@ -26,13 +26,16 @@ public class ActorService implements IActorService {
 
     @Override
     public void addAllActors(List<Actor> actors) {
-        actors = actors.stream().peek(actor -> actor.setActorId(getRandomActorId())).toList();
+        actors = actors.stream().map(actor -> {
+            actor.setActorId(getRandomActorId());
+            return actor;
+        }).toList();
         actorRepository.saveAll(actors);
     }
 
     @Override
-    public Actor getActorById(String actor_id) {
-        return actorRepository.findById(actor_id).orElse(null);
+    public Actor getActorById(String actorId) {
+        return actorRepository.findById(actorId).orElse(null);
     }
 
     private String getRandomActorId() {

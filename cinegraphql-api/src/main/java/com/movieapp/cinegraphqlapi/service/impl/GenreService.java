@@ -26,7 +26,10 @@ public class GenreService implements IGenreService {
 
     @Override
     public void addAllGenres(List<Genre> genres) {
-        genres = genres.stream().peek(genre -> genre.setGenreId(getRandomGenreId())).toList();
+        genres = genres.stream().map(genre -> {
+            genre.setGenreId(getRandomGenreId());
+            return genre;
+        }).toList();
         genreRepository.saveAll(genres);
     }
 

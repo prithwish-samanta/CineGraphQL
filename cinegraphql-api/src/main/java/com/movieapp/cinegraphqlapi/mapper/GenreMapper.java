@@ -4,6 +4,9 @@ import com.movieapp.cinegraphqlapi.dto.GenreDto;
 import com.movieapp.cinegraphqlapi.model.Genre;
 
 public class GenreMapper {
+    private GenreMapper() {
+    }
+
     public static GenreDto entityToDto(Genre genre) {
         if (genre == null)
             return null;

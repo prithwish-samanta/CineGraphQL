@@ -9,6 +9,9 @@ import com.movieapp.cinegraphqlapi.model.Movie;
 import java.util.List;
 
 public class MovieMapper {
+    private MovieMapper() {
+    }
+
     public static MovieDto entityToDto(Movie movie) {
         if (movie == null)
             return null;

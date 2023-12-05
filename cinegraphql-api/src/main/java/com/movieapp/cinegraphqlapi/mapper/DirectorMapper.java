@@ -4,6 +4,9 @@ import com.movieapp.cinegraphqlapi.dto.DirectorDto;
 import com.movieapp.cinegraphqlapi.model.Director;
 
 public class DirectorMapper {
+    private DirectorMapper() {
+    }
+
     public static DirectorDto entityToDto(Director director) {
         if (director == null)
             return null;
