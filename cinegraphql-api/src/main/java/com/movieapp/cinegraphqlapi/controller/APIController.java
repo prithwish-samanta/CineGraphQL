@@ -1,23 +1,12 @@
 package com.movieapp.cinegraphqlapi.controller;
 
-import com.movieapp.cinegraphqlapi.dto.ActorDto;
-import com.movieapp.cinegraphqlapi.dto.DirectorDto;
-import com.movieapp.cinegraphqlapi.dto.GenreDto;
-import com.movieapp.cinegraphqlapi.dto.MovieDto;
-import com.movieapp.cinegraphqlapi.mapper.ActorMapper;
-import com.movieapp.cinegraphqlapi.mapper.DirectorMapper;
-import com.movieapp.cinegraphqlapi.mapper.GenreMapper;
-import com.movieapp.cinegraphqlapi.mapper.MovieMapper;
-import com.movieapp.cinegraphqlapi.model.Actor;
-import com.movieapp.cinegraphqlapi.model.Director;
-import com.movieapp.cinegraphqlapi.model.Genre;
-import com.movieapp.cinegraphqlapi.model.Movie;
-import com.movieapp.cinegraphqlapi.service.impl.ActorService;
-import com.movieapp.cinegraphqlapi.service.impl.DirectorService;
-import com.movieapp.cinegraphqlapi.service.impl.GenreService;
-import com.movieapp.cinegraphqlapi.service.impl.MovieService;
+import com.movieapp.cinegraphqlapi.dto.*;
+import com.movieapp.cinegraphqlapi.mapper.*;
+import com.movieapp.cinegraphqlapi.model.*;
+import com.movieapp.cinegraphqlapi.service.impl.*;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -29,12 +18,14 @@ public class APIController {
     private final GenreService genreService;
     private final ActorService actorService;
     private final DirectorService directorService;
+    private final UserService userService;
 
-    public APIController(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService) {
+    public APIController(MovieService movieService, GenreService genreService, ActorService actorService, DirectorService directorService, UserService userService) {
         this.movieService = movieService;
         this.genreService = genreService;
         this.actorService = actorService;
         this.directorService = directorService;
+        this.userService = userService;
     }
 
     @QueryMapping
@@ -71,5 +62,11 @@ public class APIController {
     public DirectorDto director(@Argument String directorId) {
         Director director = directorService.getDirectorById(directorId);
         return DirectorMapper.entityToDto(director);
+    }
+
+    @MutationMapping
+    public UserDto registerUser(@Argument UserRegistrationInput input) {
+        User user = userService.addNewUser(UserMapper.inputToDto(input));
+        return UserMapper.entityToDto(user);
     }
 }

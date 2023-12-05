@@ -9,20 +9,18 @@ import com.movieapp.cinegraphqlapi.service.impl.ActorService;
 import com.movieapp.cinegraphqlapi.service.impl.DirectorService;
 import com.movieapp.cinegraphqlapi.service.impl.GenreService;
 import com.movieapp.cinegraphqlapi.service.impl.MovieService;
+import com.movieapp.cinegraphqlapi.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 @Component
 public class SampleDataLoader implements CommandLineRunner {
-    private static final Random random = new Random();
     private final Logger log = LoggerFactory.getLogger(SampleDataLoader.class);
     private final MovieService movieService;
     private final GenreService genreService;
@@ -36,21 +34,6 @@ public class SampleDataLoader implements CommandLineRunner {
         this.actorService = actorService;
         this.directorService = directorService;
         this.faker = faker;
-    }
-
-    private static Set<Integer> generateUniqueRandomNumberSet(int min, int max, int count) {
-        Set<Integer> uniqueRandomNumbers = new HashSet<>();
-
-        while (uniqueRandomNumbers.size() < count) {
-            int randomNumber = getRandomIndexBetween(min, max);
-            uniqueRandomNumbers.add(randomNumber);
-        }
-
-        return uniqueRandomNumbers;
-    }
-
-    private static int getRandomIndexBetween(int min, int max) {
-        return random.nextInt((max - min) + 1) + min;
     }
 
     @Override
@@ -104,19 +87,19 @@ public class SampleDataLoader implements CommandLineRunner {
             movie.setPosterUrl(faker.internet().url());
             movie.setTrailerUrl(faker.internet().url());
 
-            Set<Integer> indexes = generateUniqueRandomNumberSet(0, 9, 5);
+            Set<Integer> indexes = CommonUtils.generateUniqueRandomNumberSet(0, 9, 5);
             List<Genre> selectedGenres = indexes.stream()
                     .map(genres::get)
                     .toList();
             movie.setGenres(selectedGenres);
 
-            indexes = generateUniqueRandomNumberSet(0, 9, 8);
+            indexes = CommonUtils.generateUniqueRandomNumberSet(0, 9, 8);
             List<Actor> selectedActors = indexes.stream()
                     .map(actors::get)
                     .toList();
             movie.setActors(selectedActors);
 
-            movie.setDirectors(List.of(directors.get(getRandomIndexBetween(0, 99))));
+            movie.setDirectors(List.of(directors.get(CommonUtils.generateRandomNumberBetween(0, 99))));
             return movie;
         }).toList();
         log.info("operation - inserting 100 movies in database - END");

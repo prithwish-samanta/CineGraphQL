@@ -3,31 +3,29 @@ package com.movieapp.cinegraphqlapi.service.impl;
 import com.movieapp.cinegraphqlapi.model.Genre;
 import com.movieapp.cinegraphqlapi.repository.GenreRepository;
 import com.movieapp.cinegraphqlapi.service.IGenreService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.movieapp.cinegraphqlapi.util.CommonUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class GenreService implements IGenreService {
     private final GenreRepository genreRepository;
 
-    @Autowired
     public GenreService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 
     @Override
     public void addGenre(Genre genre) {
-        genre.setGenreId(getRandomGenreId());
+        genre.setGenreId(CommonUtils.generateRandomId("gg"));
         genreRepository.save(genre);
     }
 
     @Override
     public void addAllGenres(List<Genre> genres) {
         genres = genres.stream().map(genre -> {
-            genre.setGenreId(getRandomGenreId());
+            genre.setGenreId(CommonUtils.generateRandomId("gg"));
             return genre;
         }).toList();
         genreRepository.saveAll(genres);
@@ -36,9 +34,5 @@ public class GenreService implements IGenreService {
     @Override
     public List<Genre> getAllGenres() {
         return genreRepository.findAll();
-    }
-
-    private String getRandomGenreId() {
-        return "gg" + UUID.randomUUID();
     }
 }

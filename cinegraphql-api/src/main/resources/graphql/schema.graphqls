@@ -7,6 +7,10 @@ type Query {
     director(directorId: ID!): Director
 }
 
+type Mutation{
+    registerUser(input: UserRegistrationInput!): User
+}
+
 type Movie {
     movieId: ID!
     title: String!
@@ -39,4 +43,16 @@ type Director {
     birthDate: String
     biography: String
     profilePictureUrl: String
+}
+
+type User{
+    userId: ID!
+    username: String!
+    email: String!
+}
+
+input UserRegistrationInput {
+    username: String!
+    password: String!
+    email: String!
 }
